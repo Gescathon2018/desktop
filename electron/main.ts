@@ -17,10 +17,10 @@ let server = undefined;
 
 let device = new DeviceManager(
   () => {
-    ipcMain.emit('detach', {serial: device.serial})
+    window.webContents.send('detach', {serial: device.serial})
   },
   () => {
-    ipcMain.emit('attach', {serial: device.serial})
+    window.webContents.send('attach', {serial: device.serial})
   }
 );
 

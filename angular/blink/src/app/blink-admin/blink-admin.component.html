@@ -1,10 +1,16 @@
+<pre>Attached {{ attached | json }}</pre>
+{{attached}}
+<p *ngIf="attached">Atacheeeed</p>
+<p *ngIf="!attached">NOT Atacheeeed</p>
+
 <form>
     <section class="form-block">
         <div class="form-group">
             <label>My Blinkstick</label>
             <div class="toggle-switch">
                 <input
-                  (input)="onToggleInput($event)"
+                  (click)="onToggleClick($event)"
+                  [checked]="enabled"
                   type="checkbox" id="toggle_1">
                 <label for="toggle_1">Encender y apagar</label>
             </div>
@@ -18,6 +24,27 @@
         <input
           (input)="onColorPickerInput($event.target.value)"
           type="color">
+      </div>
+    </section>
+
+    <section class="form-block">
+      <div class="form-group">
+        <label>Madness starts here</label>
+        <button class="btn btn-primary" (click)="madness()">Let's do this</button>
+      </div>
+    </section>
+
+    <section class="form-block">
+      <div class="form-group">
+        <label>Pulse</label>
+        <button class="btn btn-primary" (click)="pulse()">Pulse</button>
+      </div>
+    </section>
+
+    <section class="form-block">
+      <div class="form-group">
+        <label>Blink</label>
+        <button class="btn btn-primary" (click)="blink()">Blink</button>
       </div>
     </section>
 </form>
