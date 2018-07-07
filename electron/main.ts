@@ -1,8 +1,6 @@
 
 import {app, BrowserWindow, ipcMain, Tray, screen} from 'electron';
 import * as path from 'path';
-import * as http from 'http';
-import * as express from 'express';
 
 import * as usb from 'usb';
 
@@ -37,17 +35,6 @@ app.on('ready', () => {
 app.on('window-all-closed', () => {
   app.quit();
 });
-
-function startServer() {
-  const app = express();
-  app.use('/', express.static(path.resolve(path.join(__dirname, 'html'))));
-  server = http.createServer(app);
-  server.listen(3000, function () {
-    console.log('server up');
-  });
-}
-
-
 
 function createTray() {
   tray = new Tray(path.join(assetsDirectory, 'blinkmystick.png'));
