@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {ElectronMessengerService} from "../electron-messenger.service";
 
 @Component({
@@ -9,12 +9,13 @@ import {ElectronMessengerService} from "../electron-messenger.service";
 export class BlinkAdminComponent implements OnInit {
 
   public enabled: boolean;
-  public attached: boolean;
+  // public attached: boolean;
+  public attached = true ;
   public color: string;
 
-  constructor(private _electronMessenger: ElectronMessengerService) {
+  constructor(private _electronMessenger: ElectronMessengerService, private zone: NgZone) {
     this.enabled = true;
-    this.attached = true;
+    // this.attached = true;
     this.color = '#ffffff';
   }
 
@@ -31,9 +32,11 @@ export class BlinkAdminComponent implements OnInit {
 
   loadListeners() {
     this._electronMessenger.attachEvent.subscribe( event => {
-      console.log('event here!', event);
-      // this.attached = event;
-      this.attached = false;
+      this.zone.run(() => {
+        console.log('event here!', event);
+        // this.attached = event;
+        this.attached = event;
+      });
     });
     this._electronMessenger.loadListeners();
   }
