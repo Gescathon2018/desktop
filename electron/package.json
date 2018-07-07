@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "run": "tsc && cp -R assets dist/. && cp -R html dist/. && electron dist/main.js"
+    "run": "./build.sh"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "blinkstick": "git+https://github.com/Gescathon2018/blinkstick-node.git",
-    "usb": "^1.3.2"
+    "express": "^4.16.3",
+    "usb": "^1.3.2",
+    "websocket": "^1.0.26"
   }
 }

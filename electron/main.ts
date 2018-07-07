@@ -1,6 +1,13 @@
 
 import {app, BrowserWindow, ipcMain, Tray, screen} from 'electron';
 import * as path from 'path';
+import * as http from 'http';
+import * as express from 'express';
+
+import * as usb from 'usb';
+
+var WebSocketClient = require('websocket').client;
+
 import * as blinkstick from 'blinkstick';
 
 const assetsDirectory = path.join(__dirname, 'assets');
@@ -15,12 +22,14 @@ let window = undefined;
 
 let device = blinkstick.findFirst();
 
+let server = undefined;
 
 if ( process.platform === 'darwin') {
   app.dock.hide();
 }
 // Don't show the app in the doc
 app.on('ready', () => {
+  // startServer();
   createTray();
   createWindow();
 });
@@ -28,6 +37,18 @@ app.on('ready', () => {
 app.on('window-all-closed', () => {
   app.quit();
 });
+
+function startServer() {
+  const app = express();
+  app.use('/', express.static(path.resolve(path.join(__dirname, 'html'))));
+  server = http.createServer(app);
+  server.listen(3000, function () {
+    console.log('server up');
+  });
+}
+
+
+
 function createTray() {
   tray = new Tray(path.join(assetsDirectory, 'blinkmystick.png'));
   tray.on('click', function (event) {
@@ -40,6 +61,7 @@ function createTray() {
     const trayPositionVert = cursorPosition.y >= primarySize.height/2 ? 'bottom' : 'top';
     const trayPositionHoriz = cursorPosition.x >= primarySize.width/2 ? 'right' : 'left';
     window.setPosition(getTrayPosX(),  getTrayPosY());
+    console.log('window is visible ? ' + window.isVisible());
     window.isVisible() ? window.hide() : window.show();
     function getTrayPosX() {
       const horizBounds = {
@@ -75,7 +97,7 @@ function createWindow() {
       backgroundThrottling: false
     }
   });
-  window.loadURL(`file://${path.join(__dirname, 'html', 'index.html')}`);
+    window.loadURL('file://' + path.join(__dirname, 'html', 'index.html'));
   // Hide the window when it loses focus
   window.on('blur', () => {
     if (!window.webContents.isDevToolsOpened()) {
@@ -87,13 +109,17 @@ function createWindow() {
   });
 }
 
-ipcMain.on('synchronous-message', (event, message) => {
-  console.log(message);
+ipcMain.on('blinkmystick', (event, message) => {
+  console.log(JSON.stringify(message, null, 4));
   device[message.method.name](...message.method.params);
-  // device.blink('random', function(){
-  //   device.pulse('random', function(){
-  //       device.setColor('red', function(){
-  //       });
-  //   });
-  // });
+});
+
+usb.on('attach', usbDevice => {
+  if (usbDevice.deviceDescriptor.iManufacturer === 1 && usbDevice.deviceDescriptor.idVendor === 8352) {
+    device = blinkstick.findFirst();
+  }
+});
+
+usb.on('detach', device => {
+  console.log('detach');
 });
