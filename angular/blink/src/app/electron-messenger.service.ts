@@ -32,11 +32,17 @@ export class ElectronMessengerService {
   sendColor(color) {
     if (this._electronService.isElectronApp) {
       const rgbColor = this.hexToRgb(color);
+      // for (let i = 0; i < this.NUM_LEDS; i++) {
+      //   const params = [rgbColor.r, rgbColor.g, rgbColor.b, {index: i}];
+      //   const message = this.makeMessage('setColor', params);
+      // }
+      let colors = [];
       for (let i = 0; i < this.NUM_LEDS; i++) {
-        const params = [rgbColor.r, rgbColor.g, rgbColor.b, {index: i}];
-        const message = this.makeMessage('setColor', params);
-        const response = this.sendToElectron(message);
+        colors = [...colors, rgbColor.g, rgbColor.r, rgbColor.b]
       }
+      console.log(colors)
+      const message = this.makeMessage('setColors', [0, colors]);
+      const response = this.sendToElectron(message);
     }
   }
 
