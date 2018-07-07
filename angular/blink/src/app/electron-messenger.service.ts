@@ -21,7 +21,7 @@ export class ElectronMessengerService {
         },
       };
       console.log('sending method to Electron', message);
-      const response = this._electronService.ipcRenderer.send('blinkmystick', message.toString());
+      const response = this._electronService.ipcRenderer.send('blinkmystick', message);
       console.log('receiving response from Electron', response);
     } else {
       console.log('is NOT an electron App');
