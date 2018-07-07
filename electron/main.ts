@@ -2,7 +2,7 @@ import {app, BrowserWindow, ipcMain, Tray, screen} from 'electron';
 import {DeviceManager} from './deviceManager';
 import * as path from 'path';
 
-var WebSocketClient = require('websocket').client;
+const WebSocket = require('ws');
 
 const assetsDirectory = path.join(__dirname, 'assets');
 
@@ -88,7 +88,7 @@ function createWindow() {
       backgroundThrottling: false
     }
   });
-    window.loadURL('file://' + path.join(__dirname, 'html', 'index.html'));
+  window.loadURL('file://' + path.join(__dirname, 'html', 'index.html'));
   // Hide the window when it loses focus
   window.on('blur', () => {
     if (!window.webContents.isDevToolsOpened()) {
@@ -101,5 +101,20 @@ function createWindow() {
 }
 
 ipcMain.on('blinkmystick', (event, message) => {
+  device.device.getColors(7, function(err, data) {
+    console.log(JSON.stringify(data));
+    ws.send(JSON.stringify({
+      account:'',
+      mode: server,
+      leds: data
+    }));
+  });
   device.command(message)
+});
+
+const ws = new WebSocket('ws://192.168.76.239:8000/ws/bs/', {
+  perMessageDeflate: false
+});
+ws.on('message', function incoming(data) {
+  console.log(data);
 });
