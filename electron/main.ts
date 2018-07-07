@@ -103,11 +103,15 @@ function createWindow() {
 ipcMain.on('blinkmystick', (event, message) => {
   device.device.getColors(7, function(err, data) {
     console.log(JSON.stringify(data));
-    ws.send(JSON.stringify({
-      account:'',
-      mode: server,
-      leds: data
-    }));
+    try {
+      ws.send(JSON.stringify({
+        account:'',
+        mode: server,
+        leds: data
+      }));
+    } catch (e) {
+      console.log('Error send to server')
+    }
   });
   device.command(message)
 });
