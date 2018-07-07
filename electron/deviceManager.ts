@@ -3,7 +3,7 @@ import * as usb from 'usb';
 
 export class DeviceManager {
 
-  device = blinkstick.findFirst();
+  public device = blinkstick.findFirst();
   serial = '';
 
   constructor(detachCallback, attachCallback) {
