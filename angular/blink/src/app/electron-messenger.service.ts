@@ -13,6 +13,11 @@ export class ElectronMessengerService {
   constructor(private _electronService: ElectronService) {
   }
 
+  setNumLeds(num, color) {
+    this.NUM_LEDS = num;
+    this.sendColor(color);
+  }
+
   loadListeners() {
     this._electronService.ipcRenderer.on('attach', () => {
       console.log('emit true');
