@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {ElectronMessengerService} from "../electron-messenger.service";
+import {ElectronMessengerService} from '../electron-messenger.service';
 
 @Component({
   selector: 'app-blink-admin',
@@ -43,7 +43,7 @@ export class BlinkAdminComponent implements OnInit {
 
   onRangeInput(event) {
     console.log(event);
-    this._electronMessenger.setNumLeds(event.target.value, color);
+    this._electronMessenger.setNumLeds(event.target.value, this.color);
   }
 
   onColorPickerInput(color) {

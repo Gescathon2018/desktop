@@ -33,12 +33,12 @@
       </div>
     </section>
 
-    <section class="form-block">
-      <div class="form-group">
-        <label>Madness starts here</label>
-        <button class="btn btn-primary" (click)="madness()">Let's do this</button>
-      </div>
-    </section>
+    <!--<section class="form-block">-->
+      <!--<div class="form-group">-->
+        <!--<label>Madness starts here</label>-->
+        <!--<button class="btn btn-primary" (click)="madness()">Let's do this</button>-->
+      <!--</div>-->
+    <!--</section>-->
 
     <section class="form-block">
       <div class="form-group">
@@ -59,7 +59,7 @@
       <label>Intensidad</label>
       <input type="range"
              min="1" max="8" step="1"
-             (input)="onRangeInput(event)"
+             (input)="onRangeInput($event)"
              list="tickmarks">
 
       <datalist id="tickmarks">
