@@ -11,6 +11,7 @@ export class DeviceManager {
       this.serial = serial;
     });
     usb.on('attach', usbDevice => {
+      console.log('attach on device manager');
       if (usbDevice.deviceDescriptor.iManufacturer === 1 && usbDevice.deviceDescriptor.idVendor === 8352) {
         this.device = blinkstick.findFirst();
       }
@@ -18,6 +19,7 @@ export class DeviceManager {
     });
 
     usb.on('detach', usbDevice => {
+      console.log('detach on device manager');
       if (usbDevice.deviceDescriptor.iManufacturer === 1 && usbDevice.deviceDescriptor.idVendor === 8352) {
         detachCallback(this.serial)
       }
