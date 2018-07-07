@@ -1,12 +1,8 @@
-
 import {app, BrowserWindow, ipcMain, Tray, screen} from 'electron';
+import {DeviceManager} from './deviceManager';
 import * as path from 'path';
 
-import * as usb from 'usb';
-
 var WebSocketClient = require('websocket').client;
-
-import * as blinkstick from 'blinkstick';
 
 const assetsDirectory = path.join(__dirname, 'assets');
 
@@ -17,10 +13,16 @@ const VERT_PADDING = 15;
 
 let tray = undefined;
 let window = undefined;
-
-let device = blinkstick.findFirst();
-
 let server = undefined;
+
+let device = new DeviceManager(
+  () => {
+    ipcMain.emit('detach', {serial: device.serial})
+  },
+  () => {
+    ipcMain.emit('attach', {serial: device.serial})
+  }
+);
 
 if ( process.platform === 'darwin') {
   app.dock.hide();
@@ -35,6 +37,8 @@ app.on('ready', () => {
 app.on('window-all-closed', () => {
   app.quit();
 });
+
+
 
 function createTray() {
   tray = new Tray(path.join(assetsDirectory, 'blinkmystick.png'));
@@ -97,16 +101,5 @@ function createWindow() {
 }
 
 ipcMain.on('blinkmystick', (event, message) => {
-  console.log(JSON.stringify(message, null, 4));
-  device[message.method.name](...message.method.params);
-});
-
-usb.on('attach', usbDevice => {
-  if (usbDevice.deviceDescriptor.iManufacturer === 1 && usbDevice.deviceDescriptor.idVendor === 8352) {
-    device = blinkstick.findFirst();
-  }
-});
-
-usb.on('detach', device => {
-  console.log('detach');
+  device.command(message)
 });
