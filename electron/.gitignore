@@ -1,2 +1,6 @@
 dist
 node_modules
+*.js
+*.js.map
+html/3rdpartylicenses.txt
+html/favicon.ico
