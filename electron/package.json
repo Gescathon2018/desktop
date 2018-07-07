@@ -1,0 +1,30 @@
+{
+  "name": "blinkmystick",
+  "version": "1.0.0",
+  "description": "Desktop application to control blickstick square",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "run": "tsc && cp -R assets dist/. && cp -R html dist/. && electron dist/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Gescathon2018/desktop.git"
+  },
+  "author": "Geskathon desktop team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gescathon2018/desktop/issues"
+  },
+  "homepage": "https://github.com/Gescathon2018/desktop#readme",
+  "devDependencies": {
+    "electron": "^2.0.4",
+    "tsc": "^1.20150623.0",
+    "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "blinkstick": "git+https://github.com/Gescathon2018/blinkstick-node.git",
+    "usb": "^1.3.2"
+  }
+}
