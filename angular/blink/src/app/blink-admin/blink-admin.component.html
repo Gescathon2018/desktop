@@ -3,7 +3,9 @@
         <div class="form-group">
             <label>My Blinkstick</label>
             <div class="toggle-switch">
-                <input type="checkbox" id="toggle_1">
+                <input
+                  (input)="onToggleInput($event)"
+                  type="checkbox" id="toggle_1">
                 <label for="toggle_1">Encender y apagar</label>
             </div>
 

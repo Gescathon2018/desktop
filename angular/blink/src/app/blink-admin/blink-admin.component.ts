@@ -8,14 +8,36 @@ import {ElectronMessengerService} from "../electron-messenger.service";
 })
 export class BlinkAdminComponent implements OnInit {
 
-  constructor(private _electronMessenger: ElectronMessengerService) { }
+  public enabled: boolean;
+  public color: string;
+
+  constructor(private _electronMessenger: ElectronMessengerService) {
+    this.enabled = true;
+    this.color = '#ffffff';
+  }
 
   ngOnInit() {
   }
 
   onColorPickerInput(color) {
-    console.log(color);
-    this._electronMessenger.sendColor(color);
+    this.color = color;
+    this.sendColor();
   }
 
+  onToggleInput(checked) {
+    this.enabled = checked;
+    if (this.enabled) {
+      this.sendColor();
+    } else {
+      this.turnOff();
+    }
+  }
+
+  sendColor() {
+    this._electronMessenger.sendColor(this.color);
+  }
+
+  turnOff() {
+    this._electronMessenger.turnOff();
+  }
 }
