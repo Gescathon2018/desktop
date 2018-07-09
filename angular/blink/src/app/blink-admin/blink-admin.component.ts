@@ -36,10 +36,6 @@ export class BlinkAdminComponent implements OnInit {
     this._electronMessenger.loadListeners();
   }
 
-  onRangeInput(event) {
-    console.log(event);
-  }
-
   onColorPickerInput(color) {
     this.color = color;
     this.sendColor();
