@@ -1,59 +1,65 @@
-<form>
-
-    <section class="form-block">
-      <div class="form-group">
-        <label>Dispositivo</label>
-        <span class="label label-success" *ngIf="attached">Conectado</span>
-        <span class="label label-danger" *ngIf="!attached">Desconectado</span>
-      </div>
-    </section>
-
-
-    <section class="form-block">
-        <div class="form-group">
-            <label>Encendido</label>
-            <div class="toggle-switch">
-                <input
-                  (click)="onToggleClick($event)"
-                  [checked]="enabled"
-                  type="checkbox" id="toggle_1">
-                <label for="toggle_1"></label>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="form-block">
-      <div class="form-group">
-        <label>Colorpicker</label>
-        <input
-          (input)="onColorPickerInput($event.target.value)"
-          value="#ffffff"
-          type="color">
-      </div>
-    </section>
-
-    <section class="form-block">
-      <div class="form-group">
-        <label>Pulse</label>
-        <button type="button" class="btn btn-primary" (click)="pulse()">Pulse</button>
-      </div>
-    </section>
-
-    <section class="form-block">
-      <div class="form-group">
-        <label>Blink</label>
-        <button type="button" class="btn btn-primary" (click)="blink()">Blink</button>
-      </div>
-    </section>
-
-    <section class="form-block">
-      <div class="form-group">
-        <label>Morph to color</label>
-        <input
-          (input)="onDestinationColorPickerInput($event.target.value)"
-          value="#ffffff"
-          type="color">
-      </div>
-    </section>
-</form>
+<div class="row">
+  <div class="col-xs-4">
+    <span class="label label-success" *ngIf="attached">Conectado</span>
+    <span class="label label-danger" *ngIf="!attached">Desconectado</span>
+  </div>
+  <div class="col-xs-4">
+    <input
+            (input)="onColorPickerInput($event.target.value)"
+            value="{{ color }}"
+            type="color">
+  </div>
+  <div class="col-xs-4">
+    <div class="toggle-switch">
+      <input
+              (click)="onToggleClick($event)"
+              [checked]="enabled"
+              type="checkbox" id="toggle_1">
+      <label for="toggle_1"></label>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-xs-12">
+    <button (click)="color='#0433ff'; sendColor('#0433ff')" class="alert alert-info alert-sm">AFK</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <button (click)="color='#00f900'; sendColor('#00f900')" class="alert alert-success alert-sm">Do you want a coffee?</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <button (click)="color='#ffbb00'; sendColor('#ffbb00')" class="alert alert-warning alert-sm">Genius at work</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <button (click)="color='#ff2600'; sendColor('#ff2600')" class="alert alert-danger alert-sm">kernel panic</button>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-xs">
+    <button type="button" class="btn"
+            [ngClass]="{'btn-success-outline': pulseButton, 'btn-danger-outline': !pulseButton}"
+            (click)="pulseButton=!pulseButton; pulse()">Pulse</button>
+  </div>
+  <div class="col-xs">
+    <button type="button" class="btn"
+            [ngClass]="{'btn-success-outline': blinkButton, 'btn-danger-outline': !blinkButton}"
+            (click)="blinkButton=!blinkButton; blink()">Blink</button>
+  </div>
+  <div class="col-xs">
+    <button type="button" class="btn"
+            [ngClass]="{'btn-success-outline': morphButton, 'btn-danger-outline': !morphButton}"
+            (click)="morphButton=!morphButton; morph()">Morph</button>
+  </div>
+  <div class="col-xs">
+    <button type="button" class="btn"
+            [ngClass]="{'btn-success-outline': danceButton, 'btn-danger-outline': !danceButton}"
+            (click)="danceButton=!danceButton; dance()">Let's dance</button>
+  </div>
+</div>

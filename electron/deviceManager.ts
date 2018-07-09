@@ -3,27 +3,34 @@ import * as usb from 'usb';
 
 export class DeviceManager {
 
-  public device = blinkstick.findFirst();
-  serial = '';
+  public device;
+  public serial;
 
   constructor(detachCallback, attachCallback) {
-    this.device.getSerial((err, serial) => {
-      this.serial = serial;
-    });
+    this.deviceInit();
     usb.on('attach', usbDevice => {
-      console.log('attach on device manager');
       if (usbDevice.deviceDescriptor.iManufacturer === 1 && usbDevice.deviceDescriptor.idVendor === 8352) {
-        this.device = blinkstick.findFirst();
-        blinkstick.setMode(3)
+        this.deviceInit();
+        setTimeout( () => { attachCallback(this.serial)}, 1000 );
       }
-      attachCallback(this.serial)
     });
     usb.on('detach', usbDevice => {
-      console.log('detach on device manager');
       if (usbDevice.deviceDescriptor.iManufacturer === 1 && usbDevice.deviceDescriptor.idVendor === 8352) {
-        detachCallback(this.serial)
+        detachCallback(this.serial);
+        this.serial = '';
       }
     });
+  }
+
+  deviceInit() {
+    const device = blinkstick.findFirst();
+    if (device) {
+      this.device = device;
+      this.device.setMode(3);
+      this.device.getSerial((err, serial) => {
+      this.serial = serial;
+    });
+    }
   }
 
   circleEffect(device: any, color: string, repetitions: number) {

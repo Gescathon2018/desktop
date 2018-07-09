@@ -2,11 +2,11 @@ import {app, BrowserWindow, ipcMain, Tray, screen} from 'electron';
 import {DeviceManager} from './deviceManager';
 import * as path from 'path';
 
-const WebSocket = require('ws');
+// const WebSocket = require('ws');
 
 const assetsDirectory = path.join(__dirname, 'assets');
 
-const WINDOW_WIDTH = 600;
+const WINDOW_WIDTH = 350;
 const WINDOW_HEIGHT = 400;
 const HORIZ_PADDING = 15;
 const VERT_PADDING = 15;
@@ -100,25 +100,32 @@ function createWindow() {
   });
 }
 
-ipcMain.on('blinkmystick', (event, message) => {
-  device.device.getColors(7, function(err, data) {
-    console.log(JSON.stringify(data));
-    try {
-      ws.send(JSON.stringify({
-        account:'',
-        mode: server,
-        leds: data
-      }));
-    } catch (e) {
-      console.log('Error send to server')
-    }
-  });
-  device.command(message)
+ipcMain.on('connected', (event, message) => {
+  if (device.serial) {
+    window.webContents.send('attach', {serial: device.serial});
+  }
 });
 
-const ws = new WebSocket('ws://192.168.76.239:8000/ws/bs/', {
-  perMessageDeflate: false
+ipcMain.on('blinkmystick', (event, message) => {
+  // device.device.getColors(7, function(err, data) {
+  //   console.log(JSON.stringify(data));
+  //   try {
+  //     ws.send(JSON.stringify({
+  //       account:'',
+  //       mode: server,
+  //       leds: data
+  //     }));
+  //   } catch (e) {
+  //     console.log('Error send to server')
+  //   }
+  // });
+  console.log(message);
+  device.command(message);
 });
-ws.on('message', function incoming(data) {
-  console.log(data);
-});
+
+// const ws = new WebSocket('ws://192.168.76.239:8000/ws/bs/', {
+//   perMessageDeflate: false
+// });
+// ws.on('message', function incoming(data) {
+//   console.log(data);
+// });

@@ -28,6 +28,7 @@
     "electron": "^2.0.4",
     "ngx-electron": "^1.0.4",
     "rxjs": "^6.0.0",
+    "save": "^2.3.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

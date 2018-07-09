@@ -4,22 +4,29 @@ import {ElectronMessengerService} from '../electron-messenger.service';
 @Component({
   selector: 'app-blink-admin',
   templateUrl: './blink-admin.component.html',
-  styleUrls: ['./blink-admin.component.css']
+  styleUrls: ['./blink-admin.component.css'],
 })
 export class BlinkAdminComponent implements OnInit {
 
   public enabled: boolean = true ;
-  public attached: boolean = true ;
-  public color: string = '#ffffff';
+  public attached: boolean = false ;
+  public color: string = '#00f900';
 
-  constructor(private _electronMessenger: ElectronMessengerService, private zone: NgZone) {
+  public pulseButton = false;
+  public blinkButton = false;
+  public danceButton = false;
+  public morphButton = false;
+
+  constructor(
+    private _electronMessenger: ElectronMessengerService,
+    private zone: NgZone) {
     this.enabled = true;
-    this.color = '#ffffff';
   }
 
   ngOnInit() {
     this.loadInfoBlocks();
     this.loadListeners();
+    this._electronMessenger.isConnected();
   }
 
   loadInfoBlocks() {
@@ -31,6 +38,9 @@ export class BlinkAdminComponent implements OnInit {
       this.zone.run(() => {
         console.log('event here!', event);
         this.attached = event;
+        if (this.attached) {
+          this.sendColor();
+        }
       });
     });
     this._electronMessenger.loadListeners();
@@ -39,10 +49,6 @@ export class BlinkAdminComponent implements OnInit {
   onColorPickerInput(color) {
     this.color = color;
     this.sendColor();
-  }
-
-  onDestinationColorPickerInput(color) {
-    this.morph(color);
   }
 
   onToggleClick(event) {
@@ -56,8 +62,9 @@ export class BlinkAdminComponent implements OnInit {
     }
   }
 
-  sendColor() {
-    this._electronMessenger.sendColor(this.color);
+  sendColor(color?) {
+    this.enabled = this.attached ? true : this.enabled;
+    this._electronMessenger.sendColor(color ? color : this.color);
   }
 
   turnOff() {
@@ -72,8 +79,12 @@ export class BlinkAdminComponent implements OnInit {
     this._electronMessenger.pulse(this.color);
   }
 
-  morph(color) {
-    this._electronMessenger.morph(color);
+  dance() {
+    this._electronMessenger.dance(this.color);
+  }
+
+  morph() {
+    this._electronMessenger.morph(this.color);
   }
 
   getInfoBlock1() {

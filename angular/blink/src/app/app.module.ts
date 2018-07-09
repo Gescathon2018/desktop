@@ -5,7 +5,8 @@ import { AppComponent } from './app.component';
 import { ClarityModule } from '@clr/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BlinkAdminComponent } from './blink-admin/blink-admin.component';
-import {NgxElectronModule} from "ngx-electron";
+import {NgxElectronModule} from 'ngx-electron';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import {NgxElectronModule} from "ngx-electron";
     BrowserModule,
     NgxElectronModule,
     ClarityModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
