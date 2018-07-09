@@ -13,6 +13,11 @@ export class ElectronMessengerService {
   constructor(private _electronService: ElectronService) {
   }
 
+  setNumLeds(num, color) {
+    this.NUM_LEDS = num;
+    this.sendColor(color);
+  }
+
   loadListeners() {
     this._electronService.ipcRenderer.on('attach', () => {
       console.log('emit true');
@@ -27,10 +32,6 @@ export class ElectronMessengerService {
   sendColor(color) {
     if (this._electronService.isElectronApp) {
       const rgbColor = this.hexToRgb(color);
-      // for (let i = 0; i < this.NUM_LEDS; i++) {
-      //   const params = [rgbColor.r, rgbColor.g, rgbColor.b, {index: i}];
-      //   const message = this.makeMessage('setColor', params);
-      // }
       let colors = [];
       for (let i = 0; i < this.NUM_LEDS; i++) {
         colors = [...colors, rgbColor.g, rgbColor.r, rgbColor.b]
@@ -43,7 +44,14 @@ export class ElectronMessengerService {
 
   turnOff() {
     if (this._electronService.isElectronApp) {
-      const message = this.makeMessage('turnOff', []);
+      const color = '#000000';
+      const rgbColor = this.hexToRgb(color);
+      let colors = [];
+      for (let i = 0; i < this.NUM_LEDS; i++) {
+        colors = [...colors, rgbColor.g, rgbColor.r, rgbColor.b]
+      }
+      console.log(colors)
+      const message = this.makeMessage('setColors', [0, colors]);
       const response = this.sendToElectron(message);
     }
   }
