@@ -14,10 +14,10 @@ export class DeviceManager {
       console.log('attach on device manager');
       if (usbDevice.deviceDescriptor.iManufacturer === 1 && usbDevice.deviceDescriptor.idVendor === 8352) {
         this.device = blinkstick.findFirst();
+        blinkstick.setMode(3)
       }
       attachCallback(this.serial)
     });
-
     usb.on('detach', usbDevice => {
       console.log('detach on device manager');
       if (usbDevice.deviceDescriptor.iManufacturer === 1 && usbDevice.deviceDescriptor.idVendor === 8352) {

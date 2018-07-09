@@ -28,29 +28,32 @@
         <label>Colorpicker</label>
         <input
           (input)="onColorPickerInput($event.target.value)"
-          value="#ffff00"
+          value="#ffffff"
           type="color">
       </div>
     </section>
 
-    <!--<section class="form-block">-->
-      <!--<div class="form-group">-->
-        <!--<label>Madness starts here</label>-->
-        <!--<button class="btn btn-primary" (click)="madness()">Let's do this</button>-->
-      <!--</div>-->
-    <!--</section>-->
-
     <section class="form-block">
       <div class="form-group">
         <label>Pulse</label>
-        <button class="btn btn-primary" (click)="pulse()">Pulse</button>
+        <button type="button" class="btn btn-primary" (click)="pulse()">Pulse</button>
       </div>
     </section>
 
     <section class="form-block">
       <div class="form-group">
         <label>Blink</label>
-        <button class="btn btn-primary" (click)="blink()">Blink</button>
+        <button type="button" class="btn btn-primary" (click)="blink()">Blink</button>
+      </div>
+    </section>
+
+    <section class="form-block">
+      <div class="form-group">
+        <label>Morph to color</label>
+        <input
+          (input)="onDestinationColorPickerInput($event.target.value)"
+          value="#ffffff"
+          type="color">
       </div>
     </section>
 

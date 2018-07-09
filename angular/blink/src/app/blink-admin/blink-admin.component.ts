@@ -8,14 +8,12 @@ import {ElectronMessengerService} from '../electron-messenger.service';
 })
 export class BlinkAdminComponent implements OnInit {
 
-  public enabled: boolean;
-  // public attached: boolean;
-  public attached = true ;
-  public color: string;
+  public enabled: boolean = true ;
+  public attached: boolean = true ;
+  public color: string = '#ffffff';
 
   constructor(private _electronMessenger: ElectronMessengerService, private zone: NgZone) {
     this.enabled = true;
-    // this.attached = true;
     this.color = '#ffffff';
   }
 
@@ -25,16 +23,13 @@ export class BlinkAdminComponent implements OnInit {
   }
 
   loadInfoBlocks() {
-
     // to do
-
   }
 
   loadListeners() {
     this._electronMessenger.attachEvent.subscribe( event => {
       this.zone.run(() => {
         console.log('event here!', event);
-        // this.attached = event;
         this.attached = event;
       });
     });
@@ -43,12 +38,15 @@ export class BlinkAdminComponent implements OnInit {
 
   onRangeInput(event) {
     console.log(event);
-    this._electronMessenger.setNumLeds(event.target.value, this.color);
   }
 
   onColorPickerInput(color) {
     this.color = color;
     this.sendColor();
+  }
+
+  onDestinationColorPickerInput(color) {
+    this.morph(color);
   }
 
   onToggleClick(event) {
@@ -78,15 +76,23 @@ export class BlinkAdminComponent implements OnInit {
     this._electronMessenger.pulse(this.color);
   }
 
-  madness() {
-    this._electronMessenger.startMadness();
+  morph(color) {
+    this._electronMessenger.morph(color);
+  }
+
+  getInfoBlock1() {
+    this._electronMessenger.getInfoBlock1();
+  }
+
+  getInfoBlock2() {
+    this._electronMessenger.getInfoBlock2();
   }
 
   setInfoBlock1() {
-    this._electronMessenger.setInfoBlock1('asdf');
+    this._electronMessenger.setInfoBlock1('Pippo');
   }
 
   setInfoBlock2() {
-    this._electronMessenger.setInfoBlock2('asdf');
+    this._electronMessenger.setInfoBlock2('Pluto');
   }
 }

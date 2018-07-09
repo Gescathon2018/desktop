@@ -6,16 +6,9 @@ import {ElectronService} from 'ngx-electron';
 })
 export class ElectronMessengerService {
 
-  private NUM_LEDS = 8;
-
   public attachEvent = new EventEmitter<boolean>();
 
   constructor(private _electronService: ElectronService) {
-  }
-
-  setNumLeds(num, color) {
-    this.NUM_LEDS = num;
-    this.sendColor(color);
   }
 
   loadListeners() {
@@ -31,61 +24,36 @@ export class ElectronMessengerService {
 
   sendColor(color) {
     if (this._electronService.isElectronApp) {
-      const rgbColor = this.hexToRgb(color);
-      let colors = [];
-      for (let i = 0; i < this.NUM_LEDS; i++) {
-        colors = [...colors, rgbColor.g, rgbColor.r, rgbColor.b]
-      }
-      console.log(colors)
-      const message = this.makeMessage('setColors', [0, colors]);
+      const message = this.makeMessage('setColor', [color]);
       const response = this.sendToElectron(message);
     }
   }
 
   turnOff() {
     if (this._electronService.isElectronApp) {
-      const color = '#000000';
-      const rgbColor = this.hexToRgb(color);
-      let colors = [];
-      for (let i = 0; i < this.NUM_LEDS; i++) {
-        colors = [...colors, rgbColor.g, rgbColor.r, rgbColor.b]
-      }
-      console.log(colors)
-      const message = this.makeMessage('setColors', [0, colors]);
+      const message = this.makeMessage('setColor', ['#000000']);
       const response = this.sendToElectron(message);
     }
   }
 
   blink(color) {
     if (this._electronService.isElectronApp) {
-      const rgbColor = this.hexToRgb(color);
-      for (let i = 0; i < this.NUM_LEDS; i++) {
-        const params = [rgbColor.r, rgbColor.g, rgbColor.b, {index: i}];
-        const message = this.makeMessage('blink', params);
-        const response = this.sendToElectron(message);
-      }
+      const message = this.makeMessage('blink', [color]);
+      const response = this.sendToElectron(message);
     }
   }
 
   pulse(color) {
     if (this._electronService.isElectronApp) {
-      const rgbColor = this.hexToRgb(color);
-      for (let i = 0; i < this.NUM_LEDS; i++) {
-        const params = [rgbColor.r, rgbColor.g, rgbColor.b, {index: i}];
-        const message = this.makeMessage('pulse', params);
+        const message = this.makeMessage('pulse', [color]);
         const response = this.sendToElectron(message);
-      }
     }
   }
 
   morph(color) {
     if (this._electronService.isElectronApp) {
-      const rgbColor = this.hexToRgb(color);
-      for (let i = 0; i < this.NUM_LEDS; i++) {
-        const params = [rgbColor.r, rgbColor.g, rgbColor.b, {index: i}];
-        const message = this.makeMessage('morph', params);
-        const response = this.sendToElectron(message);
-      }
+      const message = this.makeMessage('morph', [color]);
+      const response = this.sendToElectron(message);
     }
   }
 
@@ -96,15 +64,17 @@ export class ElectronMessengerService {
     }
   }
 
-  startMadness() {
+  getInfoBlock1() {
     if (this._electronService.isElectronApp) {
-      for (let i = 0; i < this.NUM_LEDS; i++) {
-        const randomColor = this.randomColorRGB();
-        console.log(randomColor);
-        const params = [randomColor.r, randomColor.g, randomColor.b, {index: i}];
-        const message = this.makeMessage('setColor', params);
-        const response = this.sendToElectron(message);
-      }
+      const message = this.makeMessage('getInfoBlock1', []);
+      const response = this.sendToElectron(message);
+    }
+  }
+
+  getInfoBlock2() {
+    if (this._electronService.isElectronApp) {
+      const message = this.makeMessage('getInfoBlock2', []);
+      const response = this.sendToElectron(message);
     }
   }
 
@@ -155,8 +125,5 @@ export class ElectronMessengerService {
   private randomColorComponent() {
     return Math.floor(Math.random() * 255);
   }
-
-
-
 
 }
