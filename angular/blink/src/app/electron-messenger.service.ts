@@ -40,8 +40,10 @@ export class ElectronMessengerService {
 
   turnOff() {
     if (this._electronService.isElectronApp) {
-      const message = this.makeMessage('setColor', ['#000000']);
-      const response = this.sendToElectron(message);
+      let message = this.makeMessage('turnOff', []);
+      let response = this.sendToElectron(message);
+      message = this.makeMessage('setColor', ['#000000']);
+      response = this.sendToElectron(message);
     }
   }
 
@@ -116,16 +118,16 @@ export class ElectronMessengerService {
       if (this.spinnerInterval) {
         clearInterval(this.spinnerInterval);
         this.spinnerInterval = '';
-        setTimeout(() => {this.sendColor(this.setMode(3))}, 1000);
+        // setTimeout(() => {this.setMode(3)}, 1000);
         setTimeout(() => {this.sendColor(color)}, 1000);
       } else {
         this.sendColor('#000000');
-        this.setMode(0);
+        // this.setMode(0);
         let i = 0;
         this.spinnerInterval = setInterval( () => {
           const message = this.makeMessage(
             'pulse',
-            [color, {index: i, duration: 200}]);
+            [color, {index: i.toString(), duration: 200}]);
           const response = this.sendToElectron(message);
           i = (i + 1) % 8;
 
