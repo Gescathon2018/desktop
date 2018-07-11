@@ -16,6 +16,7 @@ export class BlinkAdminComponent implements OnInit {
   public blinkButton = false;
   public danceButton = false;
   public morphButton = false;
+  public spinnerButton = false;
 
   constructor(
     private _electronMessenger: ElectronMessengerService,
@@ -85,6 +86,10 @@ export class BlinkAdminComponent implements OnInit {
 
   morph() {
     this._electronMessenger.morph(this.color);
+  }
+
+  spinner() {
+    this._electronMessenger.spinner(this.color);
   }
 
   getInfoBlock1() {

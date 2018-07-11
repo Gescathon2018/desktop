@@ -62,4 +62,9 @@
             [ngClass]="{'btn-success-outline': danceButton, 'btn-danger-outline': !danceButton}"
             (click)="danceButton=!danceButton; dance()">Let's dance</button>
   </div>
+  <div class="col-xs">
+    <button type="button" class="btn"
+            [ngClass]="{'btn-success-outline': spinnerButton, 'btn-danger-outline': !spinnerButton}"
+            (click)="spinnerButton=!spinnerButton; spinner()">Spinner</button>
+  </div>
 </div>

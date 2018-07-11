@@ -11,6 +11,7 @@ export class ElectronMessengerService {
   public pulseInterval;
   public danceInterval;
   public morphInterval;
+  public spinnerInterval;
 
   constructor(private _electronService: ElectronService) {
   }
@@ -107,6 +108,36 @@ export class ElectronMessengerService {
           const response = this.sendToElectron(message);
         }, 150 );
       }
+    }
+  }
+
+  spinner(color) {
+    if (this._electronService.isElectronApp) {
+      if (this.spinnerInterval) {
+        clearInterval(this.spinnerInterval);
+        this.spinnerInterval = '';
+        setTimeout(() => {this.sendColor(this.setMode(3))}, 1000);
+        setTimeout(() => {this.sendColor(color)}, 1000);
+      } else {
+        this.sendColor('#000000');
+        this.setMode(0);
+        let i = 0;
+        this.spinnerInterval = setInterval( () => {
+          const message = this.makeMessage(
+            'pulse',
+            [color, {index: i, duration: 200}]);
+          const response = this.sendToElectron(message);
+          i = (i + 1) % 8;
+
+        }, 220 );
+      }
+    }
+  }
+
+  setMode(mode) {
+    if (this._electronService.isElectronApp) {
+      const message = this.makeMessage('setMode', [mode]);
+      const response = this.sendToElectron(message);
     }
   }
 
