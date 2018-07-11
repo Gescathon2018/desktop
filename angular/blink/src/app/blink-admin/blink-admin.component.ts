@@ -18,6 +18,10 @@ export class BlinkAdminComponent implements OnInit {
   public morphButton = false;
   public spinnerButton = false;
 
+  public info1 = '';
+  public info2 = '';
+
+
   constructor(
     private _electronMessenger: ElectronMessengerService,
     private zone: NgZone) {
@@ -25,22 +29,33 @@ export class BlinkAdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadInfoBlocks();
     this.loadListeners();
     this._electronMessenger.isConnected();
   }
 
   loadInfoBlocks() {
-    // to do
+    console.log('loadInfoBlocks');
+    this.getInfoBlock1();
+    this.getInfoBlock2();
   }
 
   loadListeners() {
-    this._electronMessenger.attachEvent.subscribe( event => {
+    this._electronMessenger.attachEvent.subscribe( data => {
       this.zone.run(() => {
-        console.log('event here!', event);
-        this.attached = event;
-        if (this.attached) {
-          this.sendColor();
+        console.log('event here!', data);
+        if (typeof(data) === 'boolean') {
+          this.attached = data;
+          if (this.attached) {
+            this.sendColor();
+          }
+        } else {
+          if (data.method === 'getInfoBlock1') {
+            this.info1 = data.info.trim();
+            console.log(this.info1)
+          } else if (data.method === 'getInfoBlock2') {
+            this.info2 = data.info.trim();
+            console.log(this.info2)
+          }
         }
       });
     });
@@ -59,6 +74,11 @@ export class BlinkAdminComponent implements OnInit {
       this.sendColor();
     } else {
       console.log('turnOff');
+      this.pulseButton = false;
+      this.blinkButton = false;
+      this.danceButton = false;
+      this.morphButton = false;
+      this.spinnerButton = false;
       this.turnOff();
     }
   }
@@ -101,10 +121,10 @@ export class BlinkAdminComponent implements OnInit {
   }
 
   setInfoBlock1() {
-    this._electronMessenger.setInfoBlock1('Pippo');
+    this._electronMessenger.setInfoBlock1(this.info1);
   }
 
   setInfoBlock2() {
-    this._electronMessenger.setInfoBlock2('Pluto');
+    this._electronMessenger.setInfoBlock2(this.info2);
   }
 }

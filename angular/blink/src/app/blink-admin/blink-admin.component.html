@@ -1,70 +1,97 @@
-<div class="row">
-  <div class="col-xs-4">
-    <span class="label label-success" *ngIf="attached">Conectado</span>
-    <span class="label label-danger" *ngIf="!attached">Desconectado</span>
-  </div>
-  <div class="col-xs-4">
-    <input
-            (input)="onColorPickerInput($event.target.value)"
-            value="{{ color }}"
-            type="color">
-  </div>
-  <div class="col-xs-4">
-    <div class="toggle-switch">
-      <input
-              (click)="onToggleClick($event)"
-              [checked]="enabled"
-              type="checkbox" id="toggle_1">
-      <label for="toggle_1"></label>
-    </div>
-  </div>
-</div>
-<br>
-<div class="row">
-  <div class="col-xs-12">
-    <button (click)="color='#0433ff'; sendColor('#0433ff')" class="alert alert-info alert-sm">AFK</button>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <button (click)="color='#00f900'; sendColor('#00f900')" class="alert alert-success alert-sm">Do you want a coffee?</button>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <button (click)="color='#ffbb00'; sendColor('#ffbb00')" class="alert alert-warning alert-sm">Genius at work</button>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <button (click)="color='#ff2600'; sendColor('#ff2600')" class="alert alert-danger alert-sm">kernel panic</button>
-  </div>
-</div>
-<br>
-<div class="row">
-  <div class="col-xs">
-    <button type="button" class="btn"
-            [ngClass]="{'btn-success-outline': pulseButton, 'btn-danger-outline': !pulseButton}"
-            (click)="pulseButton=!pulseButton; pulse()">Pulse</button>
-  </div>
-  <div class="col-xs">
-    <button type="button" class="btn"
-            [ngClass]="{'btn-success-outline': blinkButton, 'btn-danger-outline': !blinkButton}"
-            (click)="blinkButton=!blinkButton; blink()">Blink</button>
-  </div>
-  <div class="col-xs">
-    <button type="button" class="btn"
-            [ngClass]="{'btn-success-outline': morphButton, 'btn-danger-outline': !morphButton}"
-            (click)="morphButton=!morphButton; morph()">Morph</button>
-  </div>
-  <div class="col-xs">
-    <button type="button" class="btn"
-            [ngClass]="{'btn-success-outline': danceButton, 'btn-danger-outline': !danceButton}"
-            (click)="danceButton=!danceButton; dance()">Let's dance</button>
-  </div>
-  <div class="col-xs">
-    <button type="button" class="btn"
-            [ngClass]="{'btn-success-outline': spinnerButton, 'btn-danger-outline': !spinnerButton}"
-            (click)="spinnerButton=!spinnerButton; spinner()">Spinner</button>
-  </div>
-</div>
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink id="link1">Led commands</button>
+    <clr-tab-content id="content1" *clrIfActive="true">
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="label label-success" *ngIf="attached">Conectado</span>
+          <span class="label label-danger" *ngIf="!attached">Desconectado</span>
+        </div>
+        <div class="col-xs-4">
+          <input
+                  (input)="onColorPickerInput($event.target.value)"
+                  value="{{ color }}"
+                  type="color">
+        </div>
+        <div class="col-xs-4">
+          <div class="toggle-switch">
+            <input
+                    (click)="onToggleClick($event)"
+                    [checked]="enabled"
+                    type="checkbox" id="toggle_1">
+            <label for="toggle_1"></label>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-xs-12">
+          <button (click)="color='#0433ff'; sendColor('#0433ff')" class="alert alert-info alert-sm">AFK</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button (click)="color='#00f900'; sendColor('#00f900')" class="alert alert-success alert-sm">Do you want a coffee?</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button (click)="color='#ffbb00'; sendColor('#ffbb00')" class="alert alert-warning alert-sm">Genius at work</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button (click)="color='#ff2600'; sendColor('#ff2600')" class="alert alert-danger alert-sm">kernel panic</button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-xs">
+          <button type="button" class="btn"
+                  [ngClass]="{'btn-success-outline': pulseButton, 'btn-danger-outline': !pulseButton}"
+                  (click)="pulseButton=!pulseButton; pulse()">Pulse</button>
+        </div>
+        <div class="col-xs">
+          <button type="button" class="btn"
+                  [ngClass]="{'btn-success-outline': blinkButton, 'btn-danger-outline': !blinkButton}"
+                  (click)="blinkButton=!blinkButton; blink()">Blink</button>
+        </div>
+        <div class="col-xs">
+          <button type="button" class="btn"
+                  [ngClass]="{'btn-success-outline': morphButton, 'btn-danger-outline': !morphButton}"
+                  (click)="morphButton=!morphButton; morph()">Morph</button>
+        </div>
+        <div class="col-xs">
+          <button type="button" class="btn"
+                  [ngClass]="{'btn-success-outline': danceButton, 'btn-danger-outline': !danceButton}"
+                  (click)="danceButton=!danceButton; dance()">Let's dance</button>
+        </div>
+        <div class="col-xs">
+          <button type="button" class="btn"
+                  [ngClass]="{'btn-success-outline': spinnerButton, 'btn-danger-outline': !spinnerButton}"
+                  (click)="spinnerButton=!spinnerButton; spinner()">Spinner</button>
+        </div>
+      </div>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>Config</button>
+    <clr-tab-content *clrIfActive>
+      <div class="row">
+        <div class="col-xs"><button type="button" (click)="loadInfoBlocks()">Load Info block</button></div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <input type="text" placeholder="Info Block 1">
+          <input type="text" placeholder="Info Block 2">
+        </div>
+        <div class="col-xs">
+          <button (click)="setInfoBlock1()" class="btn btn-primary" type="button">Save</button>
+          <button (click)="setInfoBlock2()" class="btn btn-primary" type="button">Save</button>
+        </div>
+      </div>
+      <span class="label label-success">{{info1}}</span>
+      <span class="label label-success">{{info2}}</span>
+    </clr-tab-content>
+  </clr-tab>
+</clr-tabs>

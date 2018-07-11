@@ -33,18 +33,27 @@ export class DeviceManager {
     }
   }
 
-  circleEffect(device: any, color: string, repetitions: number) {
-    console.log(device);
-    for (let i = 0; i < 8*repetitions; i++) {
-      setTimeout(() => {
-        if (device) {
-          device.pulse(color, {duration: 250, index: i % 8});
-        }
-      }, 500);
-    }
-  }
-
   command(message: any) {
     this.device[message.method.name](...message.method.params);
+  }
+
+  getInfoBlock1(callback) {
+    this.device.getInfoBlock1(function(err, data){
+      callback(data)
+    });
+  }
+
+  getInfoBlock2(callback) {
+    this.device.getInfoBlock2(function(err, data){
+      callback(data)
+    });
+  }
+
+  setInfoBlock1(info, callback) {
+    this.device.setInfoBlock1(info, (err) => { callback() })
+  }
+
+  setInfoBlock2(info, callback) {
+    this.device.setInfoBlock1(info, (err) => { callback() })
   }
 }

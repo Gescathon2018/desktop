@@ -23,6 +23,12 @@ export class ElectronMessengerService {
     this._electronService.ipcRenderer.on('detach', () => {
       this.attachEvent.emit(false);
     });
+    this._electronService.ipcRenderer.on('getInfoBlock1', (event, data) => {
+      this.attachEvent.emit(data);
+    });
+    this._electronService.ipcRenderer.on('getInfoBlock2', (event, data) => {
+      this.attachEvent.emit(data);
+    });
   }
 
   isConnected() {
@@ -34,16 +40,26 @@ export class ElectronMessengerService {
   sendColor(color) {
     if (this._electronService.isElectronApp) {
       const message = this.makeMessage('setColor', [color]);
-      const response = this.sendToElectron(message);
+      this.sendToElectron(message);
     }
   }
 
   turnOff() {
     if (this._electronService.isElectronApp) {
+      clearInterval(this.blinkInterval);
+      this.blinkInterval = '';
+      clearInterval(this.pulseInterval);
+      this.pulseInterval = '';
+      clearInterval(this.danceInterval);
+      this.danceInterval = '';
+      clearInterval(this.morphInterval);
+      this.morphInterval = '';
+      clearInterval(this.spinnerInterval);
+      this.spinnerInterval = '';
       let message = this.makeMessage('turnOff', []);
-      let response = this.sendToElectron(message);
+      this.sendToElectron(message);
       message = this.makeMessage('setColor', ['#000000']);
-      response = this.sendToElectron(message);
+      this.sendToElectron(message);
     }
   }
 
@@ -56,7 +72,7 @@ export class ElectronMessengerService {
       } else {
         this.blinkInterval = setInterval( () => {
           const message = this.makeMessage('blink', [color]);
-          const response = this.sendToElectron(message);
+          this.sendToElectron(message);
         }, 1000 );
       }
     }
@@ -70,11 +86,11 @@ export class ElectronMessengerService {
         setTimeout(() => {this.sendColor(color)}, 1000);
       } else {
         const message = this.makeMessage('pulse', [color]);
-        const response = this.sendToElectron(message);
+        this.sendToElectron(message);
         this.pulseInterval = setInterval( () => {
           const message = this.makeMessage('pulse', [color]);
-          const response = this.sendToElectron(message);
-        }, 3000 );
+          this.sendToElectron(message);
+        }, 2000 );
       }
     }
   }
@@ -90,7 +106,7 @@ export class ElectronMessengerService {
           const message = this.makeMessage(
             'morph',
             ['random', {duration: 400}]);
-          const response = this.sendToElectron(message);
+          this.sendToElectron(message);
         }, 600 );
       }
     }
@@ -107,7 +123,7 @@ export class ElectronMessengerService {
           const message = this.makeMessage(
             'blink',
             ['random', {delay: 100}]);
-          const response = this.sendToElectron(message);
+          this.sendToElectron(message);
         }, 150 );
       }
     }
@@ -118,63 +134,56 @@ export class ElectronMessengerService {
       if (this.spinnerInterval) {
         clearInterval(this.spinnerInterval);
         this.spinnerInterval = '';
-        // setTimeout(() => {this.setMode(3)}, 1000);
         setTimeout(() => {this.sendColor(color)}, 1000);
       } else {
         this.sendColor('#000000');
-        // this.setMode(0);
         let i = 0;
         this.spinnerInterval = setInterval( () => {
           const message = this.makeMessage(
-            'pulse',
-            [color, {index: i.toString(), duration: 200}]);
-          const response = this.sendToElectron(message);
+            'blink',
+            [color, {index: i.toString(), delay: 250}]);
+          this.sendToElectron(message);
           i = (i + 1) % 8;
 
-        }, 220 );
+        }, 100 );
       }
-    }
-  }
-
-  setMode(mode) {
-    if (this._electronService.isElectronApp) {
-      const message = this.makeMessage('setMode', [mode]);
-      const response = this.sendToElectron(message);
     }
   }
 
   sendRandomColor() {
     if (this._electronService.isElectronApp) {
       const message = this.makeMessage('setRandomColor', []);
-      const response = this.sendToElectron(message);
+      this.sendToElectron(message);
     }
   }
 
   getInfoBlock1() {
     if (this._electronService.isElectronApp) {
+      console.log('service getInfoBlock1');
       const message = this.makeMessage('getInfoBlock1', []);
-      const response = this.sendToElectron(message);
+      this.sendToElectron(message);
     }
   }
 
   getInfoBlock2() {
     if (this._electronService.isElectronApp) {
+      console.log('service getInfoBlock2');
       const message = this.makeMessage('getInfoBlock2', []);
-      const response = this.sendToElectron(message);
+      this.sendToElectron(message);
     }
   }
 
   setInfoBlock1(info) {
     if (this._electronService.isElectronApp) {
       const message = this.makeMessage('setInfoBlock1', [info]);
-      const response = this.sendToElectron(message);
+      this.sendToElectron(message);
     }
   }
 
   setInfoBlock2(info) {
     if (this._electronService.isElectronApp) {
       const message = this.makeMessage('setInfoBlock2', [info]);
-      const response = this.sendToElectron(message);
+      this.sendToElectron(message);
     }
   }
 

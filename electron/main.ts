@@ -6,14 +6,13 @@ import * as path from 'path';
 
 const assetsDirectory = path.join(__dirname, 'assets');
 
-const WINDOW_WIDTH = 350;
+const WINDOW_WIDTH = 450;
 const WINDOW_HEIGHT = 400;
 const HORIZ_PADDING = 15;
 const VERT_PADDING = 15;
 
 let tray = undefined;
 let window = undefined;
-let server = undefined;
 
 let device = new DeviceManager(
   () => {
@@ -120,7 +119,23 @@ ipcMain.on('blinkmystick', (event, message) => {
   //   }
   // });
   console.log(message);
-  device.command(message);
+  if (message.method.name === 'getInfoBlock1' || message.method.name === 'getInfoBlock2') {
+    device[message.method.name]((data) => {
+      console.log('---' + data + '---');
+      window.webContents.send(message.method.name, {info: data, method: message.method.name})
+    })
+  } else if (message.method.name === 'setInfoBlock1' || message.method.name === 'setInfoBlock2') {
+    device[message.method.name](...message.params, (data) => {
+      device.getInfoBlock1((data) => {
+        window.webContents.send(message.method.name, data)
+      });
+      device.getInfoBlock2((data) => {
+        window.webContents.send(message.method.name, data)
+      });
+    })
+  } else {
+    device.command(message);
+  }
 });
 
 // const ws = new WebSocket('ws://192.168.76.239:8000/ws/bs/', {
