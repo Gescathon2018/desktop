@@ -24,6 +24,7 @@ export class ElectronMessengerService {
       this.attachEvent.emit(false);
     });
     this._electronService.ipcRenderer.on('getInfoBlock1', (event, data) => {
+      console.log(typeof data);
       this.attachEvent.emit(data);
     });
     this._electronService.ipcRenderer.on('getInfoBlock2', (event, data) => {
@@ -90,7 +91,7 @@ export class ElectronMessengerService {
         this.pulseInterval = setInterval( () => {
           const message = this.makeMessage('pulse', [color]);
           this.sendToElectron(message);
-        }, 2000 );
+        }, 2500 );
       }
     }
   }

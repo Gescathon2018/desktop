@@ -82,8 +82,8 @@
       </div>
       <div class="row">
         <div class="col-xs">
-          <input type="text" placeholder="Info Block 1">
-          <input type="text" placeholder="Info Block 2">
+          <input type="text" placeholder="Info Block 1" [(ngModel)]="info1">
+          <input type="text" placeholder="Info Block 2" [(ngModel)]="info2">
         </div>
         <div class="col-xs">
           <button (click)="setInfoBlock1()" class="btn btn-primary" type="button">Save</button>

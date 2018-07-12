@@ -125,7 +125,8 @@ ipcMain.on('blinkmystick', (event, message) => {
       window.webContents.send(message.method.name, {info: data, method: message.method.name})
     })
   } else if (message.method.name === 'setInfoBlock1' || message.method.name === 'setInfoBlock2') {
-    device[message.method.name](...message.params, (data) => {
+    console.log(message.method.params);
+    device[message.method.name](...message.method.params, (data) => {
       device.getInfoBlock1((data) => {
         window.webContents.send(message.method.name, data)
       });
