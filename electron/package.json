@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "run": "./build.sh"
+    "run": "./build.sh",
+    "package": "electron-packager . \"Blink My Stick\" --icon blinkstick.icns --out package --overwrite",
+    "dmg": "electron-installer-dmg package/\"Blink My Stick-darwin-x64\"/\"Blink My Stick.app\" \"Blink My Stick\" --overwrite --icon=./blinkstick.icns --background=./background.png --debug"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,8 @@
   "homepage": "https://github.com/Gescathon2018/desktop#readme",
   "devDependencies": {
     "electron": "^2.0.4",
+    "electron-installer-dmg": "^2.0.0",
+    "electron-packager": "^12.1.0",
     "tsc": "^1.20150623.0",
     "typescript": "^2.9.2"
   },
